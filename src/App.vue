@@ -28,7 +28,7 @@
         </b-form>
       </b-col>
     </b-row>
-    <b-row align-v="center" align-h="center">
+    <b-row align-h="center">
       <b-col cols='12' md='6'>
         <div class="preview-vue-rss-feed">
           <div v-if="error" class="error">{{ error }}</div>
@@ -40,17 +40,24 @@
               </b-col>
               <b-col cols='2' md='2'>
                 <b-button v-on:click="getData">
-                  <b-icon icon="arrow-repeat" variant="white"></b-icon>
+                  Reload
                 </b-button>
               </b-col>
             </b-row>
 
-            <div v-if="loading" class="spinner">
+            <div v-if="loading">
               <b-spinner label="Loading..."></b-spinner>
             </div>
             <div class="articles-container">
+              <b-pagination
+                pills 
+                align="center"
+                v-model="currentPage"
+                :total-rows="this.getRows()"
+                :per-page="perPage"
+                aria-controls="my-table"
+              ></b-pagination>
               <b-table 
-                ref="selectableTable"
                 selectable
                 :select-mode="selectMode"
                 @row-selected="onRowSelected"
@@ -65,14 +72,6 @@
                 small
               >      
               </b-table>
-              <b-pagination
-                pills 
-                align="center"
-                v-model="currentPage"
-                :total-rows="this.getRows()"
-                :per-page="perPage"
-                aria-controls="my-table"
-              ></b-pagination>
             </div>
           </div>
         </div>
@@ -134,6 +133,7 @@ export default {
     },
     onRowSelected(item) {
         this.selected = item
+        window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
     },
     returnArticles() {
       var result = this.feed.items.map(function(el) {
@@ -167,18 +167,6 @@ export default {
         var urlka = ''
         if(this.url == '') urlka = 'https://www.sme.sk/rss-title'
         else urlka = this.url;
-        // const formData = { url: 'https://www.sme.sk/rss-title' };
-
-        // data=await fetch('http://webp.itprof.sk:8000/fetchurl' ,{
-        //   method: 'POST',
-        //   mode: 'no-cors',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //     'Accept': 'application/rss+xml'
-        //   },
-        //   body: formData          
-        // })
-
         axios.post(`http://webp.itprof.sk:8000/fetchurl`, 
         {
           'url': urlka,
@@ -200,14 +188,6 @@ export default {
         }).catch(error => {
           console.log(error.response)
         });
-        // const text = await data.text();
-        // const parser = new RSSParser();
-        // parser.parseString(text, (err, parsed) => {
-        //   this.loading = false;
-        //   this.feed = parsed;
-        //   this.returnArticles();
-        //   console.log(parsed)
-        // });
       } catch (err) {
         this.loading = false;
         this.error = err.toString();
@@ -243,17 +223,6 @@ a {
   color: red;
 }
 
-.loader {
-  border: 2vw solid #f3f3f3;
-  border-top: vw solid #194853;
-  border-radius: 50%;
-  width: 10vw;
-  height: 10vw;
-  animation: spin 2s linear infinite;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .page-item.active .page-link {  
     background-color: #6c757d !important;  
     border-color: #6c757d !important;  
@@ -262,14 +231,5 @@ a {
 
 .page-item .page-link {
   color: #6c757d !important
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 </style>

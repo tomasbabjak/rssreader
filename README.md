@@ -1,4 +1,16 @@
-# my-app
+# RSS Reader
+
+Vypracoval: Tomas Babjak
+
+Vyvojove prostredie: Vue.js, Bootstrap-Vue
+
+Projekt prezentovany 2.4.2020, splnene vsetky poziadavky okrem W3C Validatora
+
+Dokaz o bezchybnom validovani zaslany na mail plus tu:
+
+![W3C Validator](w3c_validate.png)
+
+![Screenshot](screenshot.png)
 
 ## Project setup
 ```
@@ -9,16 +21,3 @@ npm install
 ```
 npm run serve
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
