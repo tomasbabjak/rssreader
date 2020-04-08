@@ -10,7 +10,13 @@ Dokaz o bezchybnom validovani zaslany na mail plus tu:
 
 ![W3C Validator](w3c_validate.png)
 
+Screenshot RSS Reader:
+
 ![Screenshot](screenshot.png)
+
+Final HTML code of website:
+
+[HTML code](my-app.html)
 
 ## Project setup
 ```
